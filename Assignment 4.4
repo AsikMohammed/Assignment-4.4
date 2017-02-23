@@ -1,1 +1,12 @@
+FSDataOutputStream:
 
+        TheDistributedFileSystem returns an FSDataOutputStream for the client to start writing data to. As the client writes data, DFSOutputStream 
+splits it into packets, which it writes to an internal queue, called the data queue. The data queue is consumed by the DataStreamer, which 
+is responsible for asking the namenode to allocate new blocks by picking a list of suitable datanodes to store the replicas.
+
+DFSOutputStream:
+        
+        DFSOutputStream also maintains an internal queue of packets that are waiting to be acknowledged by datanodes, called the ack queue. A 
+packet is removed from the ack queue only when it has been acknowledged by the datanodes in the pipeline. Datanode sends the acknowledgement 
+once required replicas are created (3 by default). Similarly all the blocks are stored and replicated on the different datanodes, the data 
+blocks are copied in parallel.
